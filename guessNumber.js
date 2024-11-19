@@ -1,12 +1,11 @@
 function printData(noOfGames, wons, looses) {
-  console.log("\n*--- SCORE BOARD ---*")
+  console.log("\n*--- SCORE BOARD ---*");
   console.log("| games played :", noOfGames, " |");
   console.log("|-------------------|");
   console.log("| games Won    :", wons, " |");
   console.log("|-------------------|");
   console.log("| games loose  :", looses, " |");
   console.log("*-------------------*");
-
 }
 
 function repeat(wons, looses) {
@@ -29,9 +28,9 @@ function comment(secretNumber, userGuess, guessCount) {
   let feedBack = Math.abs(secretNumber - userGuess);
 
   if (feedBack < 3) {
-    feedBack = "Above number is closer to secret number."
+    feedBack = "Above number is closer to secret number.";
   } else {
-    feedBack = "Above number is far away to secret number."
+    feedBack = "Above number is far away to secret number.";
   }
 
   switch (guessCount) {
@@ -49,15 +48,13 @@ function guessNumber(secretNumber, guessCount, guessLimit, wons, looses) {
 
   if (guess === secretNumber) {
     console.log('\n   " YOU WON...! 🏆 "\n');
-    wons = wons + 1;
-    return repeat(wons, looses);
+    return repeat(wons + 1, looses);
   }
 
   console.log(comment(secretNumber, guess, guessCount));
 
   if (guessCount === guessLimit) {
-    looses = looses + 1;
-    return repeat(wons, looses);
+    return repeat(wons, looses + 1);
   }
 
   return guessNumber(secretNumber, guessCount + 1, guessLimit, wons, looses);
