@@ -69,12 +69,13 @@ function start(num) {
 
 // no of digits do you want...(if I change this change line no : 61 "🟢")
 const noOfCodes = 5;           // noOfCodes === 🟢 * noOfCodes...
-const generatedCode = generateCode("", noOfCodes);
-console.log(" \n------ limit is " + noOfCodes + " numbers at a time -------");
-console.log("    *------ total chances is 10 -------*\n");
-
 // no of chaces do you want to find ....
 const noOfChances = 15;
+const generatedCode = generateCode("", noOfCodes);
+
+console.log(" \n------ limit is " + noOfCodes + " numbers at a time -------");
+console.log("    *------ total chances is " + noOfChances + " -------*\n");
 
 const banner = start(noOfChances) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
+
 console.log("*------ YOU", banner, "------*");
