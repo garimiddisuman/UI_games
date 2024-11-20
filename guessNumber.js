@@ -27,7 +27,7 @@ function addQuotes(string) {
 function comment(secretNumber, userGuess, guessCount) {
   let feedBack = Math.abs(secretNumber - userGuess);
 
-  if (feedBack < 3) {
+  if (feedBack < 2) {
     feedBack = "Above number is closer to secret number.";
   } else {
     feedBack = "Above number is far away to secret number.";
@@ -39,15 +39,16 @@ function comment(secretNumber, userGuess, guessCount) {
     case 2:
       return addQuotes(feedBack + " you have last chance.🥵");
     default:
-      return '\n   " BETTER LUCK NEXT TIME...😉 "\n';
+      console.log("\n   * secret number was '" + secretNumber + "'.");
+      return '\n--- BETTER LUCK NEXT TIME.😉 --- \n';
   }
 }
 
 function guessNumber(secretNumber, guessCount, guessLimit, wons, looses) {
-  const guess = + prompt("\n --> guessNumber :");
+  const guess = + prompt("\n --> Guess Secret Number :");
 
   if (guess === secretNumber) {
-    console.log('\n   " YOU WON...! 🏆 "\n');
+    console.log('\n--- YOU WON...! 🏆 ---\n');
     return repeat(wons + 1, looses);
   }
 
