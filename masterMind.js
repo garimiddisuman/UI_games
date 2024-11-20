@@ -70,12 +70,17 @@ function start(num) {
 // no of digits do you want...(if I change this change line no : 61 "🟢")
 const noOfCodes = 5;           // noOfCodes === 🟢 * noOfCodes...
 // no of chaces do you want to find ....
-const noOfChances = 15;
+const noOfChances = 2;
 const generatedCode = generateCode("", noOfCodes);
 
 console.log(" \n------ limit is " + noOfCodes + " numbers at a time -------");
-console.log("    *------ total chances is " + noOfChances + " -------*\n");
+console.log("    *------ total chances are " + noOfChances + " -------*\n");
 
-const banner = start(noOfChances) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
+const isLoose = start(noOfChances);
+const banner = isLoose === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
+
+if (isLoose === 0) {
+  console.log("answer :", generatedCode, "\n");
+}
 
 console.log("*------ YOU", banner, "------*");
