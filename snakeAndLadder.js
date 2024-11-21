@@ -102,8 +102,8 @@ function makeMassage(name, player) {
   prompt("\n" + name + " chance : press enter ");
   const rolledNumber = Math.ceil(Math.random() * 6);
   dicePrint(rolledNumber);
-  console.log("☆ dice value :", rolledNumber);
-  console.log(name, "preveious position :", player);
+  console.log(name, "previous position :", player);
+
   return getCurrentPosition(player, player + rolledNumber);
 }
 
@@ -113,7 +113,7 @@ function snakeAndLadder_2_Players(player1Score, player2Score, name1, name2) {
   }
 
   player1Score = makeMassage(name1, player1Score)
-  console.log(name1, "current_Positon :", player1Score);
+  console.log(name1, "current Positon :", player1Score);
   console.log("\n*-----------------------------------------*");
 
   if (player1Score === 100) {
@@ -121,7 +121,7 @@ function snakeAndLadder_2_Players(player1Score, player2Score, name1, name2) {
   }
 
   player2Score = makeMassage(name2, player2Score);
-  console.log(name2 + " current_position :", player2Score);
+  console.log(name2 + " current position :", player2Score);
   console.log("\n*-----------------------------------------*");
 
   return snakeAndLadder_2_Players(player1Score, player2Score, name1, name2);
@@ -129,4 +129,5 @@ function snakeAndLadder_2_Players(player1Score, player2Score, name1, name2) {
 
 const name1 = prompt("enter player1 name :");
 const name2 = prompt("enter player2 name :");
+
 console.log(snakeAndLadder_2_Players(0, 0, name1, name2));
