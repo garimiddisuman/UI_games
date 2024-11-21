@@ -1,5 +1,6 @@
 function delay() {
-  for (let i = 0; i < 700000000; i++) { }
+  for (let i = 0; i < 800000000; i++) {
+  }
 }
 
 function isAxisMatched(x_path, x_axis, y_path, y_axis) {
@@ -20,7 +21,7 @@ function isPath(x, y) {
 
 function printInstructions() {
   const instructions = "  d -->  ➡️ \n  s -->  ⬇️ \n  w -->  ⬆️ \n  a -->  ⬅️";
-  console.log(instructions + "\n  e -->  exit");
+  console.log(instructions + "\n  e -->  exit\n");
 }
 
 function horizontalBoxes(i, x_pos, y_pos) {
@@ -28,7 +29,7 @@ function horizontalBoxes(i, x_pos, y_pos) {
 
   for (let j = 1; j <= horizontal; j++) {
     if (i === x_pos && j === y_pos) {
-      box += isPath(x_pos, y_pos) ? "👨‍💼" : "💣";
+      box += isPath(x_pos, y_pos) ? "👨‍💼" : "💥";
     }
     else if (i === vertical && j === horizontal) {
       box += "➡️ END";
@@ -96,6 +97,12 @@ function startGame(x, y) {
 const vertical = 5;
 const horizontal = 5;
 
-console.log("if there is a bomb. it will go intial position.\n");
+/*--------------------------------- FRAME WORK -------------------------------*/
+console.log("\n*--------------------* 𝓦 𝓔 𝓛 𝓒 𝓞 𝓜 𝓔  𝓣 𝓞   𝓕 𝓘 𝓝 𝓓   𝓟 𝓐 𝓣 𝓗  *-----------------------*\n");
+console.log("  -------------* Game Instructions *----------------- \n");
+console.log("  --> There is only one way is correct, your target is to find the path.");
+console.log("  --> if there is a bomb. it will go to intial position.\n");
+prompt('  ⭐️ can we start the game ? "press enter"\n');
+/*----------------------------------------------------------------------------*/
 
 startGame(1, 1);
