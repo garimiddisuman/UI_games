@@ -3,15 +3,29 @@ function delay() {
   }
 }
 
+function getRandomWay() {
+  const randomWay = Math.ceil(Math.random() * 6);
+
+  switch (randomWay) {
+    case 1: return "111222233343445455";
+    case 2: return "1121222313141525254555";
+    case 3: return "11121323333231415152535455";
+    case 4: return "111213141525354555";
+    case 5: return "112131415152535455";
+    case 6: return "112122232434444555";
+  }
+}
+
+const randomWay = getRandomWay();
+
 function isAxisMatched(x_path, x_axis, y_path, y_axis) {
   return x_path === x_axis && y_path === y_axis;
 }
 
 function isPath(x, y) {
-  const string = "111222233343445455";
 
-  for (let i = 0; i < string.length; i += 2) {
-    if (isAxisMatched(+string[i], x, +string[i + 1], y)) {
+  for (let i = 0; i < randomWay.length; i += 2) {
+    if (isAxisMatched(+randomWay[i], x, +randomWay[i + 1], y)) {
       return true;
     }
   }
