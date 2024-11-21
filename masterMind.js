@@ -49,14 +49,21 @@ function takeCharFromCode(userInput) {
   return feedBack;
 }
 
-/* -------------------- Main function ----------------- */
+/* ----------------------------- Main function ------------------------------ */
 function start(num) {
   if (num === 0) {
     return 0;
   }
+
   const userInput = takeUserInput();
+
+  if (userInput.length !== 9) {
+    console.log("    invalid input \n");
+    return start(num);
+  }
+
   const take = takeCharFromCode(userInput);
-  console.log("    " + take + "\n");
+  console.log("    " + take + "\t\t" + "Chances left : " + (num - 1) + "\n");
 
   if (take === "🟢🟢🟢🟢🟢") {
     return 1;
@@ -65,17 +72,20 @@ function start(num) {
   return start(num - 1);
 }
 
-/* ------------- starts from here ------------------- */
+/*--------------------------------- FRAME WORK -------------------------------*/
+console.log("\n*------------------------------------------------------- 👨‍🏫 🧠 ------------------------------------------------------------*");
+console.log("\n*---------------------------------------------------- MASTER MIND ---------------------------------------------------------*\n");
 
-// no of digits do you want...(if I change this change line no : 61 "🟢")
-const noOfCodes = 5;           // noOfCodes === 🟢 * noOfCodes...
-// no of chaces do you want to find ....
-const noOfChances = 2;
-const generatedCode = generateCode("", noOfCodes);
+const message = "  This symbol indicates,there is correct number";
+console.log(" *- Enter 5 numbers with spaces -*");
+console.log('    Example : \n\t --> "1 2 3 4 5"\n');
+console.log(message, "& correct position.", "    --> 🟢");
+console.log(message, "but,incorrect position.", "--> ⚪️", "\n");
+const noOfChances = +prompt("number of chances do you want :");
+console.log("\n");
+/*----------------------------------------------------------------------------*/
 
-console.log(" \n------ limit is " + noOfCodes + " numbers at a time -------");
-console.log("    *------ total chances are " + noOfChances + " -------*\n");
-
+const generatedCode = generateCode("", 5); // <---  no of codes
 const isLoose = start(noOfChances);
 const banner = isLoose === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
 
