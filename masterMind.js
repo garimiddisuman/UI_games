@@ -75,7 +75,7 @@ function printInvalid() {
   console.log("    you entered invalid input. \n");
 }
 
-function start(chances) {
+function playGame(chances) {
   if (chances === 0) {
     console.log("  answer :", GENERATED_CODE, "\n");
     return 0;
@@ -85,7 +85,7 @@ function start(chances) {
 
   if (!isValidInput(userInput)) {
     printInvalid();
-    return start(chances);
+    return playGame(chances);
   }
 
   const feedback = generateFeedBack(userInput);
@@ -95,12 +95,12 @@ function start(chances) {
     return 1;
   }
 
-  return start(chances - 1);
+  return playGame(chances - 1);
 }
 
 function frameWork() {
   console.log("\n*----------------------------------------------- 👨‍🏫 🧠 ----------------------------------------------------*");
-  console.log("\n*---------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *-------------------------------------------*\n");
+  console.log("\n*---------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *-----------------------------------------------*\n");
 
   const message = "  This symbol indicates,there is correct number";
 
@@ -116,10 +116,10 @@ function lineSpace() {
 
 frameWork();
 
-const COLUMNS = +prompt("enter number of columns:");
+const COLUMNS = +prompt("enter number of digits:");
 const NO_OF_CHANCES = +prompt("number of chances do you want :");
 lineSpace();
 const GENERATED_CODE = generateCode("", COLUMNS);
-const banner = start(NO_OF_CHANCES) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
+const banner = playGame(NO_OF_CHANCES) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
 
 console.log("*------ YOU", banner, "------*");
