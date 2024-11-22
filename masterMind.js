@@ -29,7 +29,7 @@ function takeUserInput() {
 
 // To give feedback based on the user input......
 function getFeedBack(target, index, userInput) {
-  for (let i = 0; i < userInput.length; i += 2) {
+  for (let i = userInput.length - 1; i >= 0; i -= 2) {
     if (userInput[i] === target) {
       return i === index ? "🟢" : "⚪️";
     }
@@ -58,7 +58,7 @@ function start(num) {
   const userInput = takeUserInput();
 
   if (userInput.length !== 9) {
-    console.log("    invalid input \n");
+    console.log("    you entered invalid input. \n");
     return start(num);
   }
 
@@ -74,7 +74,7 @@ function start(num) {
 
 /*--------------------------------- FRAME WORK -------------------------------*/
 console.log("\n*------------------------------------------------------- 👨‍🏫 🧠 ------------------------------------------------------------*");
-console.log("\n*---------------------------------------------------- MASTER MIND ---------------------------------------------------------*\n");
+console.log("\n*-----------------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *---------------------------------------------------------*\n");
 
 const message = "  This symbol indicates,there is correct number";
 console.log(" *- Enter 5 numbers with spaces -*");
@@ -85,7 +85,7 @@ const noOfChances = +prompt("number of chances do you want :");
 console.log("\n");
 /*----------------------------------------------------------------------------*/
 
-const generatedCode = generateCode("", 5); // <---  no of codes
+const generatedCode = generateCode("", 5); // <---  no of digits.
 const isLoose = start(noOfChances);
 const banner = isLoose === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
 
