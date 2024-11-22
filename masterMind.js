@@ -51,8 +51,9 @@ function generateFeedBack(userInput) {
   return feedBack;
 }
 
-function printFeedBack(take, num) {
-  console.log("    " + take + "\t\t" + "Chances left : " + (num - 1) + "\n");
+function printFeedBack(feedBack, chances) {
+  console.log("   ", feedBack);
+  console.log("\t\t\t\t", "Chances left : ", (chances - 1), "\n");
 }
 
 function countGreens(string) {
