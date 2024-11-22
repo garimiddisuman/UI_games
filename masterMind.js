@@ -1,33 +1,36 @@
-// To remove duplicate number in generated code......
-function isValid(string, code) {
+function isNumberRepeated(string, number) {
   for (let i = 0; i < string.length; i++) {
-    if (+string[i] === code) {
-      return false;
+    if (+string[i] === number) {
+      return true;
     }
   }
-  return true;
+
+  return false;
 }
 
-// To generate code ........
-function generateCode(string, noOfCodes) {
-  if (noOfCodes === 0) {
+function randomInt() {
+  return Math.floor(Math.random() * 10);
+}
+
+function generateCode(string, columnsCount) {
+  if (columnsCount === 0) {
     return string;
   }
-  const code = Math.floor(Math.random() * 10);
+  const randomNumber = randomInt();
 
-  if (isValid(string, +code)) {
-    string += code + " ";
-    return generateCode(string, noOfCodes - 1);
+  if (!isNumberRepeated(string, randomNumber)) {
+    string += randomNumber + " ";
+    return generateCode(string, columnsCount - 1);
   }
-  return generateCode(string, noOfCodes);
+
+  return generateCode(string, columnsCount);
 }
 
-// To access input from user ....
-function takeUserInput() {
+function readUserInput() {
   return prompt("-->");
 }
 
-// To give feedback based on the user input......
+
 function getFeedBack(target, index, userInput) {
   for (let i = userInput.length - 1; i >= 0; i -= 2) {
     if (userInput[i] === target) {
@@ -38,59 +41,85 @@ function getFeedBack(target, index, userInput) {
   return "";
 }
 
-// To check each number in generated code with each number in user input...
-function takeCharFromCode(userInput) {
+function generateFeedBack(userInput) {
   let feedBack = "";
 
-  for (let i = 0; i < generatedCode.length - 1; i += 2) {
-    feedBack += getFeedBack(generatedCode[i], i, userInput);
+  for (let i = 0; i < GENERATED_CODE.length - 1; i += 2) {
+    feedBack += getFeedBack(GENERATED_CODE[i], i, userInput);
   }
 
   return feedBack;
 }
 
-/* ----------------------------- Main function ------------------------------ */
-function start(num) {
-  if (num === 0) {
+function printFeedBack(take, num) {
+  console.log("    " + take + "\t\t" + "Chances left : " + (num - 1) + "\n");
+}
+
+function countGreens(string) {
+  let noOfGreens = 0;
+
+  for (let i = 0; i < string.length; i += 2) {
+    if (string[i] + string[i + 1] === '🟢') {
+      noOfGreens += 1;
+    }
+  }
+
+  return noOfGreens;
+}
+
+function isValidInput(userInput) {
+  return userInput.length === (COLUMNS * 2) - 1;
+}
+
+function printInvalid() {
+  console.log("    you entered invalid input. \n");
+}
+
+function start(chances) {
+  if (chances === 0) {
+    console.log("  answer :", GENERATED_CODE, "\n");
     return 0;
   }
 
-  const userInput = takeUserInput();
+  const userInput = readUserInput();
 
-  if (userInput.length !== 9) {
-    console.log("    you entered invalid input. \n");
-    return start(num);
+  if (!isValidInput(userInput)) {
+    printInvalid();
+    return start(chances);
   }
 
-  const take = takeCharFromCode(userInput);
-  console.log("    " + take + "\t\t" + "Chances left : " + (num - 1) + "\n");
+  const feedback = generateFeedBack(userInput);
+  printFeedBack(feedback, chances);
 
-  if (take === "🟢🟢🟢🟢🟢") {
+  if (countGreens(feedback) === COLUMNS) {
     return 1;
   }
 
-  return start(num - 1);
+  return start(chances - 1);
 }
 
-/*--------------------------------- FRAME WORK -------------------------------*/
-console.log("\n*------------------------------------------------------- 👨‍🏫 🧠 ------------------------------------------------------------*");
-console.log("\n*-----------------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *---------------------------------------------------------*\n");
+function frameWork() {
+  console.log("\n*----------------------------------------------- 👨‍🏫 🧠 ----------------------------------------------------*");
+  console.log("\n*---------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *-------------------------------------------*\n");
 
-const message = "  This symbol indicates,there is correct number";
-console.log(" *- Enter 5 numbers with spaces -*");
-console.log('    Example : \n\t --> "1 2 3 4 5"\n');
-console.log(message, "& correct position.", "    --> 🟢");
-console.log(message, "but,incorrect position.", "--> ⚪️", "\n");
-const noOfChances = +prompt("number of chances do you want :");
-console.log("\n");
-/*----------------------------------------------------------------------------*/
+  const message = "  This symbol indicates,there is correct number";
 
-const generatedCode = generateCode("", 5); // <---  no of digits.
-const isLoose = start(noOfChances);
-const banner = isLoose === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
-
-if (isLoose === 0) {
-  console.log("answer :", generatedCode, "\n");
+  console.log("*- Enter numbers with spaces , if colums are 5, type like bleow example -*");
+  console.log('   Example : \n\t --> "1 2 3 4 5"\n');
+  console.log(message, "& correct position.", "    --> 🟢");
+  console.log(message, "but,incorrect position.", "--> ⚪️", "\n");
 }
+
+function lineSpace() {
+  console.log("\n");
+}
+
+frameWork();
+
+const COLUMNS = +prompt("enter number of columns:");
+const NO_OF_CHANCES = +prompt("number of chances do you want :");
+lineSpace();
+const GENERATED_CODE = generateCode("", COLUMNS);
+const banner = start(NO_OF_CHANCES) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
 
 console.log("*------ YOU", banner, "------*");
