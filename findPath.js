@@ -145,12 +145,14 @@ function canStart() {
   return isUserStarts;
 }
 
-/*------------------------------- START FROM HERE ----------------------------*/
+function startGame() {
+  frameWork();
 
-frameWork();
+  if (canStart()) {
+    playGame(1, 1);
+  }
 
-if (canStart()) {
-  playGame(1, 1);
+  console.log("    BYE see you next time      \n");
 }
 
-console.log("    BYE see you next time      \n");
+startGame();
