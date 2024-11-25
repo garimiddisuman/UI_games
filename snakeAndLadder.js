@@ -107,7 +107,7 @@ function makeMassage(name, player) {
   return getCurrentPosition(player, player + rolledNumber);
 }
 
-function snakeAndLadder(player1Score, player2Score, name1, name2) {
+function playGame(player1Score, player2Score, name1, name2) {
   if (player2Score === 100) {
     return getWinnerBanner(name2);
   }
@@ -124,10 +124,14 @@ function snakeAndLadder(player1Score, player2Score, name1, name2) {
   console.log(name2 + " current position :", player2Score);
   console.log("\n*-----------------------------------------*");
 
-  return snakeAndLadder(player1Score, player2Score, name1, name2);
+  return playGame(player1Score, player2Score, name1, name2);
 }
 
-const name1 = prompt("enter player1 name :");
-const name2 = prompt("enter player2 name :");
+function startGame() {
+  const name1 = prompt("enter player1 name :");
+  const name2 = prompt("enter player2 name :");
 
-console.log(snakeAndLadder(0, 0, name1, name2));
+  console.log(playGame(0, 0, name1, name2));
+}
+
+startGame();
