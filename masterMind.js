@@ -1,4 +1,6 @@
-function isNumberRepeated(string, number) {
+const NUMBER_OF_DIGITS = 10;
+
+function doesNumberExist(string, number) {
   for (let i = 0; i < string.length; i++) {
     if (+string[i] === number) {
       return true;
@@ -8,25 +10,26 @@ function isNumberRepeated(string, number) {
   return false;
 }
 
-function randomInt() {
-  return Math.floor(Math.random() * 10);
+function randomDigit(limit) {
+  return Math.floor(Math.random() * limit);
 }
 
-function generateCode(string, columnsCount) {
+function generateCode(digitsText, columnsCount) {
   if (columnsCount === 0) {
-    return string;
-  }
-  const randomNumber = randomInt();
-
-  if (!isNumberRepeated(string, randomNumber)) {
-    string += randomNumber + " ";
-    return generateCode(string, columnsCount - 1);
+    return digitsText;
   }
 
-  return generateCode(string, columnsCount);
+  const digit = randomDigit(NUMBER_OF_DIGITS);
+
+  if (!doesNumberExist(digitsText, digit)) {
+    digitsText += digit + " ";
+    return generateCode(digitsText, columnsCount - 1);
+  }
+
+  return generateCode(digitsText, columnsCount);
 }
 
-function readUserInput() {
+function readPlayerGuess() {
   return prompt("-->");
 }
 
@@ -41,17 +44,17 @@ function getFeedBack(target, index, userInput) {
   return "";
 }
 
-function generateFeedBack(userInput) {
+function generateFeedBack(generatedAns, guess) {
   let feedBack = "";
 
-  for (let i = 0; i < GENERATED_CODE.length - 1; i += 2) {
-    feedBack += getFeedBack(GENERATED_CODE[i], i, userInput);
+  for (let i = 0; i < generatedAns.length - 1; i += 2) {
+    feedBack += getFeedBack(generatedAns[i], i, guess);
   }
 
   return feedBack;
 }
 
-function printFeedBack(feedBack, chances) {
+function displayFeedback(feedBack, chances) {
   console.log("   ", feedBack);
   console.log("\t\t\t\t", "Chances left : ", (chances - 1), "\n");
 }
@@ -68,59 +71,57 @@ function countGreens(string) {
   return noOfGreens;
 }
 
-function isValidInput(userInput) {
-  return userInput.length === (COLUMNS * 2) - 1;
+function isAValidGuess(columns, guess) {
+  return guess.length === (columns * 2) - 1;
 }
 
-function printInvalid() {
+function displayInvalid() {
   console.log("    you entered invalid input. \n");
 }
 
-function playGame(chances) {
-  if (chances === 0) {
-    console.log("  answer :", GENERATED_CODE, "\n");
+function playGame(columns, chanceCount, generatedAns) {
+  if (chanceCount === 0) {
+    console.log("  answer :", generatedAns, "\n");
     return 0;
   }
 
-  const userInput = readUserInput();
+  const guess = readPlayerGuess();
 
-  if (!isValidInput(userInput)) {
-    printInvalid();
-    return playGame(chances);
+  if (!isAValidGuess(columns, guess)) {
+    displayInvalid();
+    return playGame(columns, chanceCount, generatedAns);
   }
 
-  const feedback = generateFeedBack(userInput);
-  printFeedBack(feedback, chances);
+  const feedback = generateFeedBack(generatedAns, guess);
+  displayFeedback(feedback, chanceCount);
 
-  if (countGreens(feedback) === COLUMNS) {
+  if (countGreens(feedback) === columns) {
     return 1;
   }
 
-  return playGame(chances - 1);
+  return playGame(columns, chanceCount - 1, generatedAns);
 }
 
-function frameWork() {
-  console.log("\n*----------------------------------------------- 👨‍🏫 🧠 ----------------------------------------------------*");
-  console.log("\n*---------------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *-----------------------------------------------*\n");
+function displayInstructions() {
+  const banner = "\n*--------------------------------------- 👨‍🏫 🧠 --------------------------------------------*\n\n" +
+    "*-------------------------* 𝓜 𝓐 𝓢 𝓣 𝓔 𝓡   𝓜  𝓘 𝓝 𝓓 *---------------------------------------*\n";
+  const symbolInstruction = "  This symbol indicates,there is correct number";
+  const columnInstruction = "*- Enter numbers with spaces , if columns are 5, type like below example -*\n" + '   Example : \n\t --> "1 2 3 4 5"\n';
 
-  const message = "  This symbol indicates,there is correct number";
-
-  console.log("*- Enter numbers with spaces , if colums are 5, type like bleow example -*");
-  console.log('   Example : \n\t --> "1 2 3 4 5"\n');
-  console.log(message, "& correct position.", "    --> 🟢");
-  console.log(message, "but,incorrect position.", "--> ⚪️", "\n");
+  console.log(banner);
+  console.log(columnInstruction);
+  console.log(symbolInstruction, "& correct position.", "    --> 🟢");
+  console.log(symbolInstruction, "but,incorrect position.", "--> ⚪️", "\n");
 }
 
-function lineSpace() {
-  console.log("\n");
+function startGame() {
+  displayInstructions();
+  const columns = +prompt("Enter number of digits:");
+  const noOfChances = +prompt("Number of chances do you want :");
+  const generatedCode = generateCode("", columns);
+  const banner = playGame(columns, noOfChances, generatedCode) === 1 ? 'WON 🏆 🥳' : "LOST 🙁";
+
+  console.log("*------ YOU", banner, "------*");
 }
 
-frameWork();
-
-const COLUMNS = +prompt("enter number of digits:");
-const NO_OF_CHANCES = +prompt("number of chances do you want :");
-lineSpace();
-const GENERATED_CODE = generateCode("", COLUMNS);
-const banner = playGame(NO_OF_CHANCES) === 1 ? 'WON 🏆 🥳' : "LOOSE 🙁";
-
-console.log("*------ YOU", banner, "------*");
+startGame();
