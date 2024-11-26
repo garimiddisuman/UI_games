@@ -61,37 +61,47 @@ function getDiceValue(num) {
 }
 
 function snake(position) {
-  switch (position) {
-    case 37: return 3;
-    case 28: return 10;
-    case 48: return 16;
-    case 75: return 32;
-    case 94: return 71;
-    case 96: return 42;
+  const mouth = [37, 28, 48, 75, 94, 96];
+  const tail = [3, 10, 16, 32, 71, 42];
+
+  for (let i = 0; i < mouth.length; i++) {
+    if (mouth[i] === position) {
+      return tail[i];
+    }
   }
 }
 
 function ladder(position) {
-  switch (position) {
-    case 4: return 56;
-    case 12: return 50;
-    case 14: return 55;
-    case 22: return 58;
-    case 41: return 79;
-    case 54: return 88;
+  const ladderStart = [4, 12, 14, 22, 41, 54];
+  const ladderEnd = [56, 50, 55, 58, 79, 88];
+
+  for (let i = 0; i < ladderStart.length; i++) {
+    if (ladderStart[i] === position) {
+      return ladderEnd[i];
+    }
   }
 }
 
 function isPositionSnake(position) {
-  const isSnake = position === 37 || position === 28 || position === 48;
+  const snakePositions = [37, 28, 48, 75, 94, 96];
 
-  return isSnake || position === 75 || position === 94 || position === 96;
+  for (let i = 0; i < snakePositions.length; i++) {
+    if (snakePositions[i] === position) {
+      return true;
+    }
+  }
+  return false;
 }
 
-function isPositionLadder(position) {
-  const isLadder = position === 4 || position === 12 || position === 14;
+function isPositionSnake(position) {
+  const ladderPositions = [4, 12, 14, 22, 41, 54];
 
-  return isLadder || position === 22 || position === 41 || position === 54;
+  for (let i = 0; i < ladderPositions.length; i++) {
+    if (ladderPositions[i] === position) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function getCurrentPosition(player, position) {
