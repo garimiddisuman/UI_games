@@ -31,6 +31,7 @@ function createBox(string) {
 
 function slice(string, from, to) {
   let slicedString = "";
+
   for (let i = from; i <= to; i++) {
     slicedString += string[i];
   }
