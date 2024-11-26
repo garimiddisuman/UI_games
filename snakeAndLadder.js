@@ -1,49 +1,63 @@
 console.log("\n*------------------------------------------------ 🐍 SNAKE AND LADDER 🪜 -----------------------------------------------------*\n");
 
-const dice1 = "╭━━━━━━╮\n┃      ┃\n┃  ⚪️  ┃\n┃      ┃\n╰━━━━━━╯\n";
-const dice2 = "╭━━━━━━╮\n┃⚪️    ┃\n┃      ┃\n┃    ⚪️┃\n╰━━━━━━╯\n";
-const dice3 = "╭━━━━━━╮\n┃⚪️    ┃\n┃  ⚪️  ┃\n┃    ⚪️┃\n╰━━━━━━╯\n";
-const dice4 = "╭━━━━━━╮\n┃⚪️  ⚪️┃\n┃      ┃\n┃⚪️  ⚪️┃\n╰━━━━━━╯\n";
-const dice5 = "╭━━━━━━╮\n┃⚪️  ⚪️┃\n┃  ⚪️  ┃\n┃⚪️  ⚪️┃\n╰━━━━━━╯\n";
-const dice6 = "╭━━━━━━╮\n┃⚪️  ⚪️┃\n┃⚪️  ⚪️┃\n┃⚪️  ⚪️┃\n╰━━━━━━╯\n";
+const EMPTY = "┃      ┃";
+const TWO_DOTS = "┃⚪️  ⚪️┃";
+const ONE_LEFT = "┃⚪️    ┃";
+const ONE_MIDDLE = "┃  ⚪️  ┃";
+const ONE_RIGHT = "┃    ⚪️┃";
+
+function repeat(char, times) {
+  let string = "";
+
+  for (let i = 0; i < times; i++) {
+    string += char;
+  }
+  return string;
+}
+
+function topBorder() {
+  return "╭" + repeat("━", 6) + "╮";
+}
+
+function bottomBorder() {
+  return "╰" + repeat("━", 6) + "╯";
+}
+
+function addString(first, second, third) {
+  return "\n" + first + "\n" + second + "\n" + third + "\n";
+}
+
+function getFaceValue(one, two, three) {
+  return topBorder() + addString(one, two, three) + bottomBorder();
+}
+
+function face(faceValue) {
+  switch (faceValue) {
+    case 1: return getFaceValue(EMPTY, ONE_MIDDLE, EMPTY);
+    case 2: return getFaceValue(ONE_LEFT, EMPTY, ONE_RIGHT);
+    case 3: return getFaceValue(ONE_LEFT, ONE_MIDDLE, ONE_RIGHT);
+    case 4: return getFaceValue(TWO_DOTS, EMPTY, TWO_DOTS);
+    case 5: return getFaceValue(TWO_DOTS, ONE_MIDDLE, TWO_DOTS);
+    case 6: return getFaceValue(TWO_DOTS, TWO_DOTS, TWO_DOTS);
+  }
+}
 
 function delay() {
-  for (let i = 0; i < 200000000; i++) { }
-}
-
-function blink(num) {
-  if (num === 0) return;
-  console.log(dice1);
-  delay();
-  console.clear();
-  console.log(dice2);
-  delay();
-  console.clear();
-  console.log(dice3);
-  delay();
-  console.clear();
-  console.log(dice4);
-  delay();
-  console.clear();
-  console.log(dice5);
-  delay();
-  console.clear();
-  console.log(dice6);
-  delay();
-  console.clear();
-  return blink(num - 1);
-}
-
-function dicePrint(number) {
-  blink(2);
-  switch (number) {
-    case 1: console.log(dice1); break;
-    case 2: console.log(dice2); break;
-    case 3: console.log(dice3); break;
-    case 4: console.log(dice4); break;
-    case 5: console.log(dice5); break;
-    case 6: console.log(dice6); break;
+  for (let i = 0; i < 200000000; i++) {
   }
+  console.clear();
+}
+
+function getDiceValue(num) {
+  const faceValue = Math.ceil(Math.random() * 6);
+  delay();
+  console.log(face(faceValue));
+
+  if (num === 0) {
+    return faceValue;
+  }
+
+  return getDiceValue(num - 1);
 }
 
 function snake(position) {
@@ -100,8 +114,7 @@ function getWinnerBanner(name) {
 
 function makeMassage(name, player) {
   prompt("\n" + name + " chance : press enter ");
-  const rolledNumber = Math.ceil(Math.random() * 6);
-  dicePrint(rolledNumber);
+  const rolledNumber = getDiceValue(12);
   console.log(name, "previous position :", player);
 
   return getCurrentPosition(player, player + rolledNumber);
