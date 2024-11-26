@@ -68,42 +68,26 @@ function swapChars(string, charPos1, charPos2) {
   return swappedString;
 }
 
-function right(charPos) {
-  return charPos + 1;
-}
-
-function left(charPos) {
-  return charPos - 1;
-}
-
-function down(charPos) {
-  return charPos + 3;
-}
-
-function up(charPos) {
-  return charPos - 3;
-}
-
-function getCharPos(zeroPos, input) {
-  if (input === "d" && zeroPos % 3 !== 2) {
-    return right(zeroPos);
+function getCharPos(spacePosition, input) {
+  if (input === "d" && spacePosition % 3 !== 2) {
+    return spacePosition + 1;
   }
-  if (input === "a" && zeroPos % 3 !== 0) {
-    return left(zeroPos);
+  if (input === "a" && spacePosition % 3 !== 0) {
+    return spacePosition - 1;
   }
-  if (input === "s" && zeroPos < 6) {
-    return down(zeroPos);
+  if (input === "s" && spacePosition < 6) {
+    return spacePosition + 3;
   }
-  if (input === "w" && zeroPos > 2) {
-    return up(zeroPos);
+  if (input === "w" && spacePosition > 2) {
+    return spacePosition - 3;
   }
-  return zeroPos;
+  return spacePosition;
 }
 
 function getModifiedString(string, input) {
-  const zeroPos = findIndex(string, "0");
-  let charPos = getCharPos(zeroPos, input);
-  return swapChars(string, zeroPos, charPos);
+  const spacePosition = findIndex(string, " ");
+  let charPos = getCharPos(spacePosition, input);
+  return swapChars(string, spacePosition, charPos);
 }
 
 function wait() {
@@ -121,13 +105,13 @@ function isExit(char) {
 }
 
 function playGame(string) {
-  if (string === "abcdefgh0") {
+  if (string === "abcdefgh ") {
     return 1;
   }
 
   console.log(createBox(string));
   displayInstructions();
-  const readplayerInput = prompt("enter direction :");
+  const readplayerInput = prompt("Enter direction :");
 
   if (isExit(readplayerInput)) {
     return 0;
@@ -140,7 +124,7 @@ function playGame(string) {
 }
 
 function start() {
-  if (playGame("0abcdefgh") === 1) {
+  if (playGame(" abcdefgh") === 1) {
     console.log(" you solved the puzzle...");
   }
 }
