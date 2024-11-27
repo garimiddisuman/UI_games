@@ -93,7 +93,7 @@ function isPositionSnake(position) {
   return false;
 }
 
-function isPositionSnake(position) {
+function isPositionLadder(position) {
   const ladderPositions = [4, 12, 14, 22, 41, 54];
 
   for (let i = 0; i < ladderPositions.length; i++) {
