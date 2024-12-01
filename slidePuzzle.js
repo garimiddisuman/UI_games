@@ -1,3 +1,5 @@
+const ARRAY = ["a", "b", "c", "d", "e", "f", "g", "h", " "];
+
 function repeat(char, times) {
   let string = "";
 
@@ -8,25 +10,72 @@ function repeat(char, times) {
   return string;
 }
 
-function topBorder() {
-  return "╭" + repeat("━", 11) + "╮";
+function horizontalLine() {
+  const line = " ┣" + repeat("━", 11) + "┫";
+  return line + "\n"
 }
 
-function middleBorder() {
-  return repeat("━", 11) + "┃\n";
+function horizontalBoxes(array, from, to) {
+  let hor = "";
+
+  for (let i = from; i < to; i++) {
+    hor += " ┃ " + array[i];
+  }
+
+  return hor + " ┃\n" + horizontalLine();
 }
 
-function createBox(string) {
-  let updatedString = "";
+function makeBox(array, height, width) {
+  let box = horizontalLine();
 
-  for (let i = 0; i < string.length; i++) {
-    updatedString += " ┃ " + string[i];
-    if (i % 3 === 2) {
-      updatedString += " ┃\n ┃" + middleBorder();
+  for (let i = 0; i < height; i++) {
+    const from = i * width;
+    const to = (i + 1) * width;
+    box += horizontalBoxes(array, from, to)
+  }
+
+  return box;
+}
+
+function doesNumberExist(array, number) {
+  for (let i = 0; i < array.length; i++) {
+    if (array[i] === number) {
+      return true;
     }
   }
 
-  return " " + topBorder() + "\n" + updatedString;
+  return false;
+}
+
+function randomDigit(limit) {
+  return Math.floor(Math.random() * limit);
+}
+
+function generateCode(string) {
+  const digitsArray = [];
+  let digitsCount = 0;
+
+  while (digitsCount < string.length) {
+    const digit = randomDigit(string.length);
+
+    if (!doesNumberExist(digitsArray, digit)) {
+      digitsArray.push(digit);
+      digitsCount++;
+    }
+  }
+
+  return digitsArray;
+}
+
+function getArray() {
+  const digitsArray = generateCode(ARRAY);
+  const array = [];
+
+  for (let i = 0; i < digitsArray.length; i++) {
+    array.push(ARRAY[digitsArray[i]]);
+  }
+
+  return array;
 }
 
 function slice(string, from, to) {
@@ -49,27 +98,28 @@ function findIndex(string, char) {
   return -1;
 }
 
-function swapChars(string, charPos1, charPos2) {
-  let swappedString = "";
-  const char1 = string[charPos1];
-  const char2 = string[charPos2];
+function swapChars(array, charPos1, charPos2) {
+  let swappedArray = [];
+  const char1 = array[charPos1];
+  const char2 = array[charPos2];
 
-  for (let i = 0; i < string.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (i === charPos1) {
-      swappedString += char2;
+      swappedArray.push(char2);
       continue;
     }
     if (i === charPos2) {
-      swappedString += char1;
+      swappedArray.push(char1);
       continue;
     }
-    swappedString += string[i];
+
+    swappedArray.push(array[i]);
   }
 
-  return swappedString;
+  return swappedArray;
 }
 
-function getCharPos(spacePosition, input) {
+function getCharPosition(spacePosition, input) {
   if (input === "d" && spacePosition % 3 !== 2) {
     return spacePosition + 1;
   }
@@ -85,10 +135,10 @@ function getCharPos(spacePosition, input) {
   return spacePosition;
 }
 
-function getModifiedString(string, input) {
-  const spacePosition = findIndex(string, " ");
-  let charPos = getCharPos(spacePosition, input);
-  return swapChars(string, spacePosition, charPos);
+function getModifiedString(array, input) {
+  const spacePosition = findIndex(array, " ");
+  let charPos = getCharPosition(spacePosition, input);
+  return swapChars(array, spacePosition, charPos);
 }
 
 function wait() {
@@ -96,7 +146,7 @@ function wait() {
   }
 }
 
-function displayInstructions() {
+function displayNavigations() {
   const instructions = "  d -->  ➡️ \n  s -->  ⬇️ \n  w -->  ⬆️ \n  a -->  ⬅️";
   console.log(instructions + "\n  e -->  exit\n");
 }
@@ -105,13 +155,27 @@ function isExit(char) {
   return char === "e";
 }
 
-function playGame(string) {
-  if (string === "abcdefgh ") {
+function areEqual(array1, array2) {
+  if (array1.length !== array2.length) {
+    return false;
+  }
+
+  for (let index = 0; index < array1.length; index++) {
+    if (array1[index] !== array2[index]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+function playGame(array) {
+  if (areEqual(array, ARRAY)) {
     return 1;
   }
 
-  console.log(createBox(string));
-  displayInstructions();
+  console.log(makeBox(array, 3, 3));
+  displayNavigations();
   const readplayerInput = prompt("Enter direction :");
 
   if (isExit(readplayerInput)) {
@@ -120,14 +184,33 @@ function playGame(string) {
 
   wait();
   console.clear();
-  string = getModifiedString(string, readplayerInput);
-  return playGame(string);
+  array = getModifiedString(array, readplayerInput);
+  return playGame(array);
+}
+
+function displayInstructions() {
+  const banner = "\n\t*------------ 𝓼𝓵𝓲𝓭𝓲𝓷𝓰 𝓹𝓾𝔃𝔃𝓵𝓮 -------------*";
+  const message = "\n\t Your target is to solve puzzle like below  ⤵️ \n";
+  const array = makeBox(ARRAY, 3, 3);
+
+  console.log(banner + message + array);
 }
 
 function start() {
-  if (playGame(" abcdefgh") === 1) {
+  displayInstructions();
+  const array = getArray();
+  let doesGameWin = false;
+
+  if (confirm("  can we start the GAME ..?")) {
+    console.clear();
+    doesGameWin = playGame(array) === 1;
+  }
+
+  if (doesGameWin) {
     console.log(" you solved the puzzle...");
   }
+
+  console.log("\n    BYE see you next time      \n");
 }
 
 start();
